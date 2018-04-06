@@ -25,6 +25,56 @@ app.get('/api/getTasksData', (req, res) => {
   })
 })
 
+app.get('/api/addTask', (req, res) => {
+  db.find({}, (err, data) => {
+    if (err) {
+      sendJSON(res, false, {logs: {}, msg: err})
+      return
+    }
+    console.log('タスクを追加')
+  })
+})
+
+app.get('/api/updateTask', (req, res) => {
+  db.find({}, (err, data) => {
+    if (err) {
+      sendJSON(res, false, {logs: {}, msg: err})
+      return
+    }
+    console.log('タスクを更新')
+  })
+})
+
+app.get('/api/updatePosition', (req, res) => {
+  db.find({}, (err, data) => {
+    if (err) {
+      sendJSON(res, false, {logs: {}, msg: err})
+      return
+    }
+    console.log('位置を更新')
+  })
+})
+
+app.get('/api/updateSize', (req, res) => {
+  db.find({}, (err, data) => {
+    if (err) {
+      sendJSON(res, false, {logs: {}, msg: err})
+      return
+    }
+    console.log('サイズを更新')
+  })
+})
+
+app.get('/api/removeTask', (req, res) => {
+  db.find({}, (err, data) => {
+    if (err) {
+      sendJSON(res, false, {logs: {}, msg: err})
+      return
+    }
+    console.log('タスクを爆破')
+  })
+})
+
 const sendJSON = (res, result, obj) => {
   obj['result'] = result
   res.json(obj)
