@@ -3,3 +3,5 @@ public/bundle.js
 .vscode
 *.log
 *.db
+.idea
+.storybook

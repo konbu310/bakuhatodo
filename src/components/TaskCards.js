@@ -1,22 +1,31 @@
-import React from 'react'
-import TaskCard from './TaskCard'
+import React from 'react';
+import TaskCard from './TaskCard';
 
-const TaskCards = (props) => {
-  const tasksDataJSX = props.tasksData.map(data => (
+const TaskCards = props => {
+  const taskDataJSX = props.taskData.map(data => (
     <TaskCard
       key={data._id}
+      _id={data._id}
       title={data.title}
       deadline={data.deadline}
       content={data.content}
+      width={data.width}
+      height={data.height}
+      left={data.left}
+      top={data.top}
       editMode={props.editMode}
-      switchMode={props.switchMode}
+      switchMode={props.switchMode(data)}
+      removeData={props.removeData(data._id)}
+      detectId={props.detectId(data._id)}
+      updatePosition={props.updatePosition}
+      updateSize={props.updateSize}
+      titleChange={props.titleChange}
+      deadlineChange={props.deadlineChange}
+      contentChange={props.contentChange}
+      focusedId={props.focusedId}
     />
-  ))
-  return (
-    <React.Fragment>
-      {tasksDataJSX}
-    </React.Fragment>
-  )
-}
+  ));
+  return <React.Fragment>{taskDataJSX}</React.Fragment>;
+};
 
-export default TaskCards
+export default TaskCards;

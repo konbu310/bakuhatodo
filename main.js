@@ -1,81 +1,109 @@
-const NeDB = require('nedb')
-const path = require('path')
+const express = require('express');
+const NeDB = require('nedb');
+const path = require('path');
+
+// DBの設定
 const db = new NeDB({
   filename: path.join(__dirname, 'task.db'),
   autoload: true
-})
+});
 
-const express = require('express')
-const app = express()
-const portNo = process.env.PORT || 3000
+// サーバーの設定
+const app = express();
+const portNo = process.env.PORT || 3000;
 app.listen(portNo, () => {
-  console.log('サーバー起動', `http:localhost:${portNo}`)
-})
+  console.log('サーバー起動：', `http:localhost:${portNo}`);
+});
 
-app.use('/', express.static('./public'))
+app.use('/', express.static('./public'));
 
-app.get('/api/getTasksData', (req, res) => {
+app.get('/api/getData', (req, res) => {
   db.find({}, (err, data) => {
     if (err) {
-      sendJSON(res, false, {logs: {}, msg: err})
-      return
+      console.error(err);
+      res.json(err);
     }
-    console.log(data)
-    sendJSON(res, true, {logs: data})
-  })
-})
+    console.log(data);
+    res.json(data);
+  });
+});
 
-app.get('/api/addTask', (req, res) => {
-  db.find({}, (err, data) => {
-    if (err) {
-      sendJSON(res, false, {logs: {}, msg: err})
-      return
+app.get('/api/addData', (req, res) => {
+  db.insert(
+    {
+      title: '',
+      deadline: '',
+      content: '',
+      left: '20',
+      top: '20',
+      width: '300',
+      height: '200'
+    },
+    (err, newDoc) => {
+      if (err) {
+        console.error(err);
+        res.json(err);
+      }
+      res.json(newDoc);
     }
-    console.log('タスクを追加')
-  })
-})
+  );
+});
 
-app.get('/api/updateTask', (req, res) => {
-  db.find({}, (err, data) => {
-    if (err) {
-      sendJSON(res, false, {logs: {}, msg: err})
-      return
+app.get('/api/updateData', (req, res) => {
+  const q = req.query;
+  db.update(
+    { _id: q._id },
+    { $set: { title: q.title, deadline: q.deadline, content: q.content } },
+    { multi: true },
+    (err, numOfReplaced) => {
+      if (err) {
+        console.error(err);
+        res.json(err);
+      }
+      res.json(numOfReplaced);
     }
-    console.log('タスクを更新')
-  })
-})
+  );
+});
 
 app.get('/api/updatePosition', (req, res) => {
-  db.find({}, (err, data) => {
-    if (err) {
-      sendJSON(res, false, {logs: {}, msg: err})
-      return
+  const q = req.query;
+  db.update(
+    { _id: q._id },
+    { $set: { left: q.left, top: q.top } },
+    {},
+    (err, numOfReplaced) => {
+      if (err) {
+        console.error(err);
+        res.json(err);
+      }
+      res.json(numOfReplaced);
     }
-    console.log('位置を更新')
-  })
-})
+  );
+});
 
 app.get('/api/updateSize', (req, res) => {
-  db.find({}, (err, data) => {
-    if (err) {
-      sendJSON(res, false, {logs: {}, msg: err})
-      return
+  const q = req.query;
+  db.update(
+    { _id: q._id },
+    { $set: { width: q.width, height: q.height } },
+    {},
+    (err, numOfReplaced) => {
+      if (err) {
+        console.error(err);
+        res.json(err);
+      }
+      res.json(numOfReplaced);
     }
-    console.log('サイズを更新')
-  })
-})
+  );
+});
 
-app.get('/api/removeTask', (req, res) => {
-  db.find({}, (err, data) => {
+app.get('/api/removeData', (req, res) => {
+  const q = req.query;
+  db.remove({ _id: q._id }, {}, (err, numOfRemoved) => {
     if (err) {
-      sendJSON(res, false, {logs: {}, msg: err})
-      return
+      console.error(err);
+      res.json(err);
     }
-    console.log('タスクを爆破')
-  })
-})
-
-const sendJSON = (res, result, obj) => {
-  obj['result'] = result
-  res.json(obj)
-}
+    res.json(numOfRemoved);
+  });
+});
