@@ -18,16 +18,10 @@ const TaskCard = props => (
     disableDragging={props.editMode}
     onDragStart={props.detectId}
     onDragStop={(e, d) => {
-      // let left = convertToVW(d.x);
-      // let top = convertToVH(d.y);
-      // props.updatePosition(left, top);
       props.updatePosition(d.x, d.y);
     }}
     onResizeStart={props.detectId}
     onResizeStop={(e, direction, ref, delta, position) => {
-      // let width = convertToVW(ref.offsetWidth);
-      // let height = convertToVH(ref.offsetHeight);
-      // props.updateSize(width, height);
       props.updateSize(ref.offsetWidth, ref.offsetHeight);
     }}
   >
@@ -91,17 +85,5 @@ const EditModeContent = props => (
     />
   </Form>
 );
-
-const convertToVW = objW => {
-  let ww = window.innerWidth;
-  let px = objW * (100 / ww);
-  return String(px) + 'vw';
-};
-
-const convertToVH = objH => {
-  let wh = window.innerHeight;
-  let px = objH * (100 / wh);
-  return String(px) + 'vh';
-};
 
 export default TaskCard;

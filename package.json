@@ -6,10 +6,8 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack -w",
-    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "devDependencies": {
-    "@storybook/react": "^3.3.15",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-class-properties": "^6.24.1",

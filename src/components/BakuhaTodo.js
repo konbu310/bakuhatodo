@@ -45,7 +45,6 @@ class BakuhaTodo extends React.Component {
 
   // タスクの追加
   addData = e => {
-    document.getElementById('add').play();
     request
       .get(`/api/addData/${this.state.currentUser}`)
       .then(() => {
@@ -73,7 +72,6 @@ class BakuhaTodo extends React.Component {
 
   // 編集・閲覧モードの切り替え
   switchMode = data => e => {
-    document.getElementById('change').play();
     const { _id, title, deadline, content } = data;
     // 編集モード → 閲覧モード
     if (this.state.editMode) {
