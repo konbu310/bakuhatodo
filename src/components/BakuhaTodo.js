@@ -4,14 +4,19 @@ import TaskCards from './TaskCards';
 import AppHeader from './AppHeader';
 
 class BakuhaTodo extends React.Component {
-  state = {
-    taskData: [],
-    editMode: false,
-    focusedId: '',
-    focusedTitle: '',
-    focusedDeadline: '',
-    focusedContent: ''
-  };
+  constructor(props) {
+    super(props);
+    const USER_ID = window.location.pathname.substring(1).slice(0, -1);
+    this.state = {
+      taskData: [],
+      editMode: false,
+      focusedId: '',
+      focusedTitle: '',
+      focusedDeadline: '',
+      focusedContent: '',
+      currentUser: USER_ID
+    };
+  }
 
   // マウントされるタイミングでタスクデータを取ってくる
   componentWillMount = () => {
@@ -27,7 +32,7 @@ class BakuhaTodo extends React.Component {
   // DBからデータを取得
   getData = () => {
     request
-      .get('/api/getData')
+      .get(`/api/getData/${this.state.currentUser}`)
       .then(data => {
         this.setState({
           taskData: data.body
@@ -41,7 +46,7 @@ class BakuhaTodo extends React.Component {
   // タスクの追加
   addData = e => {
     request
-      .get('/api/addData')
+      .get(`/api/addData/${this.state.currentUser}`)
       .then(() => {
         this.getData();
       })

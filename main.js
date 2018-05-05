@@ -15,10 +15,11 @@ app.listen(portNo, () => {
   console.log('サーバー起動：', `http:localhost:${portNo}`);
 });
 
-app.use('/', express.static('./public'));
+app.use('/:id', express.static('./public'));
 
-app.get('/api/getData', (req, res) => {
-  db.find({}, (err, data) => {
+app.get('/api/getData/:id', (req, res) => {
+  const user = req.params.id;
+  db.find({ user: user }, (err, data) => {
     if (err) {
       console.error(err);
       res.json(err);
@@ -28,7 +29,8 @@ app.get('/api/getData', (req, res) => {
   });
 });
 
-app.get('/api/addData', (req, res) => {
+app.get('/api/addData/:id', (req, res) => {
+  const user = req.params.id;
   db.insert(
     {
       title: '',
@@ -37,7 +39,8 @@ app.get('/api/addData', (req, res) => {
       left: '20',
       top: '20',
       width: '300',
-      height: '200'
+      height: '200',
+      user: user
     },
     (err, newDoc) => {
       if (err) {
