@@ -4,4 +4,4 @@ public/bundle.js
 *.log
 *.db
 .idea
-.storybook
+webpack.config.js
