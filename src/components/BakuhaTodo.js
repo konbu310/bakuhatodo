@@ -57,6 +57,7 @@ class BakuhaTodo extends React.Component {
 
   // タスクの削除
   removeData = _id => e => {
+    document.getElementById('bomb').play();
     request
       .get('/api/removeData')
       .query({ _id: _id })
