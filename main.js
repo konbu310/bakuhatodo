@@ -15,6 +15,8 @@ app.listen(portNo, () => {
   console.log('サーバー起動：', `http:localhost:${portNo}`);
 });
 
+app.use('/', express.static('./top'));
+
 app.use('/:id', express.static('./public'));
 
 app.get('/api/getData/:id', (req, res) => {

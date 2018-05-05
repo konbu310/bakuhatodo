@@ -167,6 +167,7 @@ class BakuhaTodo extends React.Component {
         <AppHeader addData={this.addData} />
         <div
           style={{
+            overflow: 'hidden',
             margin: 0,
             padding: 0,
             top: 0,
