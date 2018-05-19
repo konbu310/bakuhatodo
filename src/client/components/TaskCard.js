@@ -1,5 +1,6 @@
 import React from 'react';
 import Rnd from 'react-rnd';
+import bakuhaMp3 from '../assets/bakuha.mp3';
 import { Card, Button, Form } from 'semantic-ui-react';
 
 const TaskCard = props => (
@@ -26,12 +27,13 @@ const TaskCard = props => (
     }}
   >
     <Card
+      className={'card' + String(props._id)}
       style={{
         width: '100%',
         height: '100%'
       }}
     >
-      <Card.Content>
+      <Card.Content className={'card' + String(props._id)}>
         {props.editMode && props.focusedId === props._id ? (
           <EditModeContent
             title={props.title}
@@ -49,7 +51,7 @@ const TaskCard = props => (
           />
         )}
       </Card.Content>
-      <Card.Content extra>
+      <Card.Content extra className={'card' + String(props._id)}>
         <div className="ui two buttons">
           <Button basic color="green" toggle onClick={props.switchMode}>
             {props.editMode && props.focusedId === props._id ? '保存' : '編集'}
@@ -60,6 +62,18 @@ const TaskCard = props => (
         </div>
       </Card.Content>
     </Card>
+    <audio id={'bakuhaMp3' + String(props._id)} src={bakuhaMp3} />
+    <img
+      id={'bakuhaGif' + String(props._id)}
+      src=""
+      alt="爆破"
+      width="300%"
+      height="300%"
+      style={{
+        display: 'none',
+        pointerEvents: 'none'
+      }}
+    />
   </Rnd>
 );
 

@@ -1,33 +1,42 @@
 const path = require('path');
-
-const MODE = 'production';
-
+const MODE = 'development';
 const enabledSourceMap = MODE === 'development';
 
 module.exports = {
   mode: MODE,
-  entry: path.join(__dirname, 'src/index.js'),
+  entry: path.join(__dirname, 'src/client/index.js'),
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.join(__dirname, 'dist/js'),
     filename: 'bundle.js'
   },
   module: {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
             options: {
-              presets: [['env', { modules: false }], 'react'],
+              presets: [
+                'react',
+                [
+                  'env',
+                  {
+                    modules: false,
+                    targets: {
+                      browsers: ['defaults']
+                    }
+                  }
+                ]
+              ],
               plugins: ['transform-class-properties']
             }
           }
-        ],
-        exclude: /node_modules/
+        ]
       },
       {
-        test: /\.css/,
+        test: /\.css$/,
         use: [
           'style-loader',
           {
@@ -36,6 +45,29 @@ module.exports = {
               url: false,
               minimize: true,
               sourceMap: enabledSourceMap
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(gif|png|jpg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 51200,
+              name: '../assets/[name].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.mp3$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '../assets/[name].[ext]'
             }
           }
         ]

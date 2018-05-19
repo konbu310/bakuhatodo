@@ -2,11 +2,13 @@ import React from 'react';
 import request from 'superagent';
 import TaskCards from './TaskCards';
 import AppHeader from './AppHeader';
+import bakuhaGif from '../assets/bakuha.gif';
+import { resolve } from 'uri-js';
 
 class BakuhaTodo extends React.Component {
   constructor(props) {
     super(props);
-    const USER_ID = window.location.pathname.substring(1).slice(0, -1);
+    const USER_ID = props.match.params.id;
     this.state = {
       taskData: [],
       editMode: false,
@@ -55,9 +57,28 @@ class BakuhaTodo extends React.Component {
       });
   };
 
+  preremoveData = _id => e => {
+    const gifElm = document.getElementById(`bakuhaGif${_id}`);
+    const gifStyle = gifElm.style;
+    const mp3Elm = document.getElementById(`bakuhaMp3${_id}`);
+    mp3Elm.play();
+    gifStyle.display = '';
+    gifStyle.position = 'absolute';
+    gifStyle.bottom = '-100%';
+    gifStyle.right = '-100%';
+    gifElm.setAttribute('src', `${bakuhaGif}?${_id}`);
+
+    mp3Elm.addEventListener(
+      'ended',
+      () => {
+        this.removeData(_id);
+      },
+      false
+    );
+  };
+
   // タスクの削除
-  removeData = _id => e => {
-    document.getElementById('bomb').play();
+  removeData = _id => {
     request
       .get('/api/removeData')
       .query({ _id: _id })
@@ -162,7 +183,10 @@ class BakuhaTodo extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <AppHeader addData={this.addData} />
+        <AppHeader
+          addData={this.addData}
+          currentUser={this.state.currentUser}
+        />
         <div
           style={{
             overflow: 'hidden',
@@ -180,7 +204,7 @@ class BakuhaTodo extends React.Component {
             taskData={this.state.taskData}
             detectId={this.detectId}
             switchMode={this.switchMode}
-            removeData={this.removeData}
+            removeData={this.preremoveData}
             updatePosition={this.updatePosition}
             updateSize={this.updateSize}
             editMode={this.state.editMode}

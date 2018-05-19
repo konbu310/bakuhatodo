@@ -4,20 +4,20 @@ const path = require('path');
 
 // DBの設定
 const db = new NeDB({
-  filename: path.join(__dirname, 'task.db'),
+  filename: path.join(__dirname, '../../task.db'),
   autoload: true
 });
 
 // サーバーの設定
 const app = express();
 const portNo = process.env.PORT || 3000;
-app.listen(portNo, () => {
-  console.log('サーバー起動：', `http:localhost:${portNo}`);
+
+// app.use('/', express.static(path.join(__dirname, 'dist')));
+//app.use('/:id?', express.static(path.join(__dirname, 'dist')));
+
+app.get('/:id?', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
-
-app.use('/', express.static('./top'));
-
-app.use('/:id', express.static('./public'));
 
 app.get('/api/getData/:id', (req, res) => {
   const user = req.params.id;
@@ -111,4 +111,8 @@ app.get('/api/removeData', (req, res) => {
     }
     res.json(numOfRemoved);
   });
+});
+
+app.listen(portNo, () => {
+  console.log('サーバー起動：', `http:localhost:${portNo}`);
 });
