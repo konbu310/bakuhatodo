@@ -13,11 +13,13 @@ const AppHeader = props => (
           : '爆破ToDo'}
       </Header>
     </Menu.Item>
-    <Menu.Item position="right">
-      <Button basic color="teal" onClick={props.addData}>
-        {props.topPage ? 'IDを作成する' : '新規タスク'}
-      </Button>
-    </Menu.Item>
+    {props.MenuBtn ? (
+      <Menu.Item position="right">
+        <Button basic color="teal" onClick={props.clickBtn}>
+          {props.btnValue}
+        </Button>
+      </Menu.Item>
+    ) : null}
   </Menu>
 );
 

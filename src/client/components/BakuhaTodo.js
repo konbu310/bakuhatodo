@@ -227,10 +227,13 @@ class BakuhaTodo extends React.Component {
     return (
       <React.Fragment>
         <AppHeader
-          addData={this.addData}
+          MenuBtn
+          clickBtn={this.addData}
+          btnValue="タスクを追加する"
           currentUser={this.state.currentUser}
         />
         <div
+          className="area"
           style={{
             overflow: 'hidden',
             margin: 0,
@@ -241,7 +244,6 @@ class BakuhaTodo extends React.Component {
             height: '100vh',
             position: 'fixed'
           }}
-          className="area"
         >
           <TaskCards
             taskData={this.state.taskData}
