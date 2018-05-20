@@ -51,7 +51,7 @@ class BakuhaTodo extends React.Component {
   };
 
   /**
-   * リサイズ・ドラッグした時にCardのIDを取得し保存する
+   * リサイズ・ドラッグの開始時にCardのIDを取得し保存する
    * @memberof BakuhaTodo
    */
   detectId = _id => e => {
@@ -195,7 +195,7 @@ class BakuhaTodo extends React.Component {
         top: t
       })
       .then(res => {
-        console.log(`${res.body}つのポジションを更新しました。`);
+        console.log('ポジションを更新');
       })
       .catch(err => {
         console.error(err);
@@ -216,7 +216,7 @@ class BakuhaTodo extends React.Component {
         height: h
       })
       .then(res => {
-        console.log(`${res.body}つのサイズを更新しました。`);
+        console.log('サイズを更新');
       })
       .catch(err => {
         console.error(err);
