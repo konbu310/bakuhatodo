@@ -54,7 +54,7 @@ const Top = () => (
         textAlign: 'center'
       }}
     >
-      <small>BakuhaToDo created by konbu310 @ 2018</small>
+      <small>爆破ToDo created by konbu310 @ 2018</small>
     </footer>
   </div>
 );
