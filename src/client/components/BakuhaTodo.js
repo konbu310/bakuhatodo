@@ -3,8 +3,13 @@ import request from 'superagent';
 import TaskCards from './TaskCards';
 import AppHeader from './AppHeader';
 import bakuhaGif from '../assets/bakuha.gif';
-import { resolve } from 'uri-js';
 
+/**
+ * 爆破ToDOのメインコンポーネント
+ * イベントハンドラ、stateを一元管理
+ * @class BakuhaTodo
+ * @extends {React.Component}
+ */
 class BakuhaTodo extends React.Component {
   constructor(props) {
     super(props);
@@ -20,18 +25,18 @@ class BakuhaTodo extends React.Component {
     };
   }
 
-  // マウントされるタイミングでタスクデータを取ってくる
+  /**
+   * コンポーネントマウント時の処理
+   * @memberof BakuhaTodo
+   */
   componentWillMount = () => {
     this.getData();
   };
 
-  detectId = _id => e => {
-    this.setState({
-      focusedId: _id
-    });
-  };
-
-  // DBからデータを取得
+  /**
+   * DBからタスクのデータを取得し保存
+   * @memberof BakuhaTodo
+   */
   getData = () => {
     request
       .get(`/api/getData/${this.state.currentUser}`)
@@ -45,7 +50,20 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  // タスクの追加
+  /**
+   * リサイズ・ドラッグした時にCardのIDを取得し保存する
+   * @memberof BakuhaTodo
+   */
+  detectId = _id => e => {
+    this.setState({
+      focusedId: _id
+    });
+  };
+
+  /**
+   * DBにタスクデータを追加し、再度データを取得
+   * @memberof BakuhaTodo
+   */
   addData = e => {
     request
       .get(`/api/addData/${this.state.currentUser}`)
@@ -57,15 +75,26 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  preremoveData = _id => e => {
+  /**
+   * Cardとそこに仕込まれたimgタグとaudioタグを取得
+   * cardの隠蔽、srcの注入、音声の再生
+   * @memberof BakuhaTodo
+   */
+  renderBakuha = _id => e => {
+    const cardElm = document.getElementById(`card${_id}`);
     const gifElm = document.getElementById(`bakuhaGif${_id}`);
     const gifStyle = gifElm.style;
     const mp3Elm = document.getElementById(`bakuhaMp3${_id}`);
+
     mp3Elm.play();
+
     gifStyle.display = '';
     gifStyle.position = 'absolute';
     gifStyle.bottom = '-100%';
     gifStyle.right = '-100%';
+
+    cardElm.style.visibility = 'hidden';
+
     gifElm.setAttribute('src', `${bakuhaGif}?${_id}`);
 
     mp3Elm.addEventListener(
@@ -77,7 +106,10 @@ class BakuhaTodo extends React.Component {
     );
   };
 
-  // タスクの削除
+  /**
+   * 爆破演出が終了後、DBからデータを削除
+   * @memberof BakuhaTodo
+   */
   removeData = _id => {
     request
       .get('/api/removeData')
@@ -91,7 +123,11 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  // 編集・閲覧モードの切り替え
+  /**
+   * カードの閲覧モードと編集モードの切替
+   * stateのeditModeとcurrentIDを見て判断する
+   * @memberof BakuhaTodo
+   */
   switchMode = data => e => {
     const { _id, title, deadline, content } = data;
     // 編集モード → 閲覧モード
@@ -131,20 +167,24 @@ class BakuhaTodo extends React.Component {
     }
   };
 
-  // 編集時のイベントハンドラ
-  titleChange = e => {
-    this.setState({ focusedTitle: e.target.value });
+  /**
+   * タスクの編集を検知してstateを更新する
+   * @memberof BakuhaTodo
+   */
+  handleEdit = type => e => {
+    type === 'title'
+      ? this.setState({ focusedTitle: e.target.value })
+      : type === 'deadline'
+        ? this.setState({ focusedDeadline: e.target.value })
+        : type === 'content'
+          ? this.setState({ focusedContent: e.target.value })
+          : console.log('エラー');
   };
 
-  deadlineChange = e => {
-    this.setState({ focusedDeadline: e.target.value });
-  };
-
-  contentChange = e => {
-    this.setState({ focusedContent: e.target.value });
-  };
-
-  // ドラッグした時にポジションを更新
+  /**
+   * ドラッグを止めた時に位置データを更新する
+   * @memberof BakuhaTodo
+   */
   updatePosition = (l, t) => {
     console.log(`left：${l} / top：${t}`);
     request
@@ -162,7 +202,10 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  // リサイズした時にサイズを更新
+  /**
+   * リサイズを止めた時にサイズデータを更新する
+   * @memberof BakuhaTodo
+   */
   updateSize = (w, h) => {
     console.log(`width：${w} / height：${h}`);
     request
@@ -204,13 +247,11 @@ class BakuhaTodo extends React.Component {
             taskData={this.state.taskData}
             detectId={this.detectId}
             switchMode={this.switchMode}
-            removeData={this.preremoveData}
+            removeData={this.renderBakuha}
             updatePosition={this.updatePosition}
             updateSize={this.updateSize}
             editMode={this.state.editMode}
-            titleChange={this.titleChange}
-            deadlineChange={this.deadlineChange}
-            contentChange={this.contentChange}
+            handleEdit={this.handleEdit}
             focusedId={this.state.focusedId}
           />
         </div>

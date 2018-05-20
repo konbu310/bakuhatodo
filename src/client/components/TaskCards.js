@@ -19,9 +19,7 @@ const TaskCards = props => {
       detectId={props.detectId(data._id)}
       updatePosition={props.updatePosition}
       updateSize={props.updateSize}
-      titleChange={props.titleChange}
-      deadlineChange={props.deadlineChange}
-      contentChange={props.contentChange}
+      handleEdit={props.handleEdit}
       focusedId={props.focusedId}
     />
   ));

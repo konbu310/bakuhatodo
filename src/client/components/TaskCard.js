@@ -27,21 +27,19 @@ const TaskCard = props => (
     }}
   >
     <Card
-      className={'card' + String(props._id)}
+      id={'card' + String(props._id)}
       style={{
         width: '100%',
         height: '100%'
       }}
     >
-      <Card.Content className={'card' + String(props._id)}>
+      <Card.Content>
         {props.editMode && props.focusedId === props._id ? (
           <EditModeContent
             title={props.title}
             deadline={props.deadline}
             content={props.content}
-            titleChange={props.titleChange}
-            deadlineChange={props.deadlineChange}
-            contentChange={props.contentChange}
+            handleEdit={props.handleEdit}
           />
         ) : (
           <ViewModeContent
@@ -51,7 +49,7 @@ const TaskCard = props => (
           />
         )}
       </Card.Content>
-      <Card.Content extra className={'card' + String(props._id)}>
+      <Card.Content extra>
         <div className="ui two buttons">
           <Button basic color="green" toggle onClick={props.switchMode}>
             {props.editMode && props.focusedId === props._id ? '保存' : '編集'}
@@ -87,15 +85,18 @@ const ViewModeContent = props => (
 
 const EditModeContent = props => (
   <Form>
-    <Form.Input defaultValue={props.title} onChange={props.titleChange} />
+    <Form.Input
+      defaultValue={props.title}
+      onChange={props.handleEdit('title')}
+    />
     <Form.Input
       type="date"
       defaultValue={props.deadline}
-      onChange={props.deadlineChange}
+      onChange={props.handleEdit('deadline')}
     />
     <Form.TextArea
       defaultValue={props.content}
-      onChange={props.contentChange}
+      onChange={props.handleEdit('content')}
     />
   </Form>
 );
