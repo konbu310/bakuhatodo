@@ -75,28 +75,22 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  /**
-   * Cardとそこに仕込まれたimgタグとaudioタグを取得
-   * cardの隠蔽、srcの注入、音声の再生
-   * @memberof BakuhaTodo
-   */
-  renderBakuha = _id => e => {
+  setElments = _id => e => {
     const cardElm = document.getElementById(`card${_id}`);
     const gifElm = document.getElementById(`bakuhaGif${_id}`);
     const gifStyle = gifElm.style;
     const mp3Elm = document.getElementById(`bakuhaMp3${_id}`);
+    this.renderBakuha(_id, cardElm, gifStyle, gifElm, mp3Elm);
+  };
 
-    mp3Elm.play();
-
+  renderBakuha = (_id, cardElm, gifStyle, gifElm, mp3Elm) => {
     gifStyle.display = '';
     gifStyle.position = 'absolute';
     gifStyle.bottom = '-100%';
     gifStyle.right = '-100%';
-
     cardElm.style.visibility = 'hidden';
-
     gifElm.setAttribute('src', `${bakuhaGif}?${_id}`);
-
+    mp3Elm.play();
     mp3Elm.addEventListener(
       'ended',
       () => {
@@ -249,7 +243,7 @@ class BakuhaTodo extends React.Component {
             taskData={this.state.taskData}
             detectId={this.detectId}
             switchMode={this.switchMode}
-            removeData={this.renderBakuha}
+            removeData={this.setElments}
             updatePosition={this.updatePosition}
             updateSize={this.updateSize}
             editMode={this.state.editMode}
