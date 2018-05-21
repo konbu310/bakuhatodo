@@ -79,17 +79,18 @@ class BakuhaTodo extends React.Component {
     const cardElm = document.getElementById(`card${_id}`);
     const gifElm = document.getElementById(`bakuhaGif${_id}`);
     const gifStyle = gifElm.style;
+    const gifSrc = `${bakuhaGif}?${_id}`;
     const mp3Elm = document.getElementById(`bakuhaMp3${_id}`);
-    this.renderBakuha(_id, cardElm, gifStyle, gifElm, mp3Elm);
+    this.renderBakuha(_id, cardElm, gifStyle, gifElm, gifSrc, mp3Elm);
   };
 
-  renderBakuha = (_id, cardElm, gifStyle, gifElm, mp3Elm) => {
+  renderBakuha = (_id, cardElm, gifStyle, gifElm, gifSrc, mp3Elm) => {
     gifStyle.display = '';
     gifStyle.position = 'absolute';
     gifStyle.bottom = '-100%';
     gifStyle.right = '-100%';
     cardElm.style.visibility = 'hidden';
-    gifElm.setAttribute('src', `${bakuhaGif}?${_id}`);
+    gifElm.setAttribute('src', gifSrc);
     mp3Elm.play();
     mp3Elm.addEventListener(
       'ended',
