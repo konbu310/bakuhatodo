@@ -5,6 +5,23 @@ const path = require('path');
 const app = express();
 const portNo = process.env.PORT || 3000;
 
+// DBに接続
+mongoose.connect(
+  process.env.MONGODB_URI || 'mongodb://localhost/bakuhatodo',
+  err => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('MongoDB接続');
+    }
+  }
+);
+
+// サーバー起動
+app.listen(portNo, () => {
+  console.log('サーバー起動：', `http:localhost:${portNo}`);
+});
+
 app.use('/', express.static('./dist'));
 app.use('/:id', express.static('./dist'));
 
@@ -101,19 +118,4 @@ app.get('/api/removeData', (req, res) => {
     }
     res.sendStatus(200);
   });
-});
-
-// サーバー起動
-app.listen(portNo, () => {
-  console.log('サーバー起動：', `http:localhost:${portNo}`);
-  mongoose.connect(
-    process.env.MONGOLAB_URI || 'mongodb://localhost/bakuhatodo',
-    err => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('MongoDB接続');
-      }
-    }
-  );
 });

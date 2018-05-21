@@ -1,6 +1,6 @@
 const path = require('path');
 const MODE = 'development';
-const enabledSourceMap = MODE === 'development';
+const enabledSourceMap = MODE === 'production';
 
 module.exports = {
   mode: MODE,
