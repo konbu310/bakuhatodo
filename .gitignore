@@ -3,4 +3,3 @@ node_modules/
 *.log
 *.db
 .idea
-bundle.js
