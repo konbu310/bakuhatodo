@@ -2,7 +2,7 @@ import React from 'react';
 import request from 'superagent';
 import TaskCards from './TaskCards';
 import AppHeader from './AppHeader';
-import bakuhaGif from '../assets/bakuha.gif';
+// import bakuhaGif from '../assets/bakuha.gif';
 
 class BakuhaTodo extends React.Component {
   constructor(props) {
@@ -66,7 +66,10 @@ class BakuhaTodo extends React.Component {
     gifStyle.bottom = '-100%';
     gifStyle.right = '-100%';
     cardElm.style.visibility = 'hidden';
-    gifElm.setAttribute('src', `${bakuhaGif}?${_id}`);
+    gifElm.setAttribute(
+      'src',
+      'https://i.gyazo.com/62e81d043bfe3a7ebec310c5b02f9736.gif' /*`${bakuhaGif}?${_id}`*/
+    );
     mp3Elm.play();
 
     // 爆破音の終了を検知してデータの削除
