@@ -68,7 +68,7 @@ class BakuhaTodo extends React.Component {
     cardElm.style.visibility = 'hidden';
     gifElm.setAttribute(
       'src',
-      'https://i.gyazo.com/62e81d043bfe3a7ebec310c5b02f9736.gif' /*`${bakuhaGif}?${_id}`*/
+      `https://i.gyazo.com/62e81d043bfe3a7ebec310c5b02f9736.gif?${_id}` /*`${bakuhaGif}?${_id}`*/
     );
     mp3Elm.play();
 
