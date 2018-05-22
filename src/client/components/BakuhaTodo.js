@@ -4,12 +4,6 @@ import TaskCards from './TaskCards';
 import AppHeader from './AppHeader';
 import bakuhaGif from '../assets/bakuha.gif';
 
-/**
- * 爆破ToDOのメインコンポーネント
- * イベントハンドラ、stateを一元管理
- * @class BakuhaTodo
- * @extends {React.Component}
- */
 class BakuhaTodo extends React.Component {
   constructor(props) {
     super(props);
@@ -25,18 +19,10 @@ class BakuhaTodo extends React.Component {
     };
   }
 
-  /**
-   * コンポーネントマウント時の処理
-   * @memberof BakuhaTodo
-   */
   componentWillMount = () => {
     this.getData();
   };
 
-  /**
-   * DBからタスクのデータを取得し保存
-   * @memberof BakuhaTodo
-   */
   getData = () => {
     request
       .get(`/api/getData/${this.state.currentUser}`)
@@ -50,20 +36,12 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  /**
-   * リサイズ・ドラッグの開始時にCardのIDを取得し保存する
-   * @memberof BakuhaTodo
-   */
   detectId = _id => e => {
     this.setState({
       focusedId: _id
     });
   };
 
-  /**
-   * DBにタスクデータを追加し、再度データを取得
-   * @memberof BakuhaTodo
-   */
   addData = e => {
     request
       .get(`/api/addData/${this.state.currentUser}`)
@@ -75,23 +53,23 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  setElments = _id => e => {
+  renderBakuha = _id => e => {
+    // DOMから要素を取得
     const cardElm = document.getElementById(`card${_id}`);
     const gifElm = document.getElementById(`bakuhaGif${_id}`);
     const gifStyle = gifElm.style;
-    const gifSrc = `${bakuhaGif}?${_id}`;
     const mp3Elm = document.getElementById(`bakuhaMp3${_id}`);
-    this.renderBakuha(_id, cardElm, gifStyle, gifElm, gifSrc, mp3Elm);
-  };
 
-  renderBakuha = (_id, cardElm, gifStyle, gifElm, gifSrc, mp3Elm) => {
+    // CSSを変更して爆破、再生、カードの隠蔽
     gifStyle.display = '';
     gifStyle.position = 'absolute';
     gifStyle.bottom = '-100%';
     gifStyle.right = '-100%';
     cardElm.style.visibility = 'hidden';
-    gifElm.setAttribute('src', gifSrc);
+    gifElm.setAttribute('src', `${bakuhaGif}?${_id}`);
     mp3Elm.play();
+
+    // 爆破音の終了を検知してデータの削除
     mp3Elm.addEventListener(
       'ended',
       () => {
@@ -101,10 +79,6 @@ class BakuhaTodo extends React.Component {
     );
   };
 
-  /**
-   * 爆破演出が終了後、DBからデータを削除
-   * @memberof BakuhaTodo
-   */
   removeData = _id => {
     request
       .get('/api/removeData')
@@ -118,11 +92,6 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  /**
-   * カードの閲覧モードと編集モードの切替
-   * stateのeditModeとcurrentIDを見て判断する
-   * @memberof BakuhaTodo
-   */
   switchMode = data => e => {
     const { _id, title, deadline, content } = data;
     // 編集モード → 閲覧モード
@@ -162,10 +131,6 @@ class BakuhaTodo extends React.Component {
     }
   };
 
-  /**
-   * タスクの編集を検知してstateを更新する
-   * @memberof BakuhaTodo
-   */
   handleEdit = type => e => {
     type === 'title'
       ? this.setState({ focusedTitle: e.target.value })
@@ -176,10 +141,6 @@ class BakuhaTodo extends React.Component {
           : console.log('エラー');
   };
 
-  /**
-   * ドラッグを止めた時に位置データを更新する
-   * @memberof BakuhaTodo
-   */
   updatePosition = (l, t) => {
     console.log(`left：${l} / top：${t}`);
     request
@@ -197,10 +158,6 @@ class BakuhaTodo extends React.Component {
       });
   };
 
-  /**
-   * リサイズを止めた時にサイズデータを更新する
-   * @memberof BakuhaTodo
-   */
   updateSize = (w, h) => {
     console.log(`width：${w} / height：${h}`);
     request
@@ -244,7 +201,7 @@ class BakuhaTodo extends React.Component {
             taskData={this.state.taskData}
             detectId={this.detectId}
             switchMode={this.switchMode}
-            removeData={this.setElments}
+            removeData={this.renderBakuha}
             updatePosition={this.updatePosition}
             updateSize={this.updateSize}
             editMode={this.state.editMode}
