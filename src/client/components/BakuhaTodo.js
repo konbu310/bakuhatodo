@@ -2,7 +2,6 @@ import React from 'react';
 import request from 'superagent';
 import TaskCards from './TaskCards';
 import AppHeader from './AppHeader';
-// import bakuhaGif from '../assets/bakuha.gif';
 
 class BakuhaTodo extends React.Component {
   constructor(props) {
@@ -68,7 +67,7 @@ class BakuhaTodo extends React.Component {
     cardElm.style.visibility = 'hidden';
     gifElm.setAttribute(
       'src',
-      `https://i.gyazo.com/62e81d043bfe3a7ebec310c5b02f9736.gif?${_id}` /*`${bakuhaGif}?${_id}`*/
+      `https://i.gyazo.com/62e81d043bfe3a7ebec310c5b02f9736.gif?${_id}`
     );
     mp3Elm.play();
 
