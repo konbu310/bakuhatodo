@@ -3,7 +3,7 @@ const MODE = 'production';
 const enabledSourceMap = MODE === 'development';
 
 module.exports = {
-  target: 'node',
+  target: 'web',
   mode: MODE,
   entry: path.join(__dirname, 'src/client/index.js'),
   output: {
@@ -50,18 +50,6 @@ module.exports = {
           }
         ]
       },
-      // {
-      //   test: /\.(gif|png|jpg)$/,
-      //   use: [
-      //     {
-      //       loader: 'url-loader',
-      //       options: {
-      //         limit: 51200,
-      //         name: '../assets/[name].[ext]'
-      //       }
-      //     }
-      //   ]
-      // },
       {
         test: /\.mp3$/,
         use: [
