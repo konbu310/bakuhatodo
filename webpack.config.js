@@ -3,6 +3,7 @@ const MODE = 'production';
 const enabledSourceMap = MODE === 'development';
 
 module.exports = {
+  target: 'node',
   mode: MODE,
   entry: path.join(__dirname, 'src/client/index.js'),
   output: {
