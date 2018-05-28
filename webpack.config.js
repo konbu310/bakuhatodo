@@ -49,18 +49,18 @@ module.exports = {
           }
         ]
       },
-      {
-        test: /\.(gif|png|jpg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 51200,
-              name: '../assets/[name].[ext]'
-            }
-          }
-        ]
-      },
+      // {
+      //   test: /\.(gif|png|jpg)$/,
+      //   use: [
+      //     {
+      //       loader: 'url-loader',
+      //       options: {
+      //         limit: 51200,
+      //         name: '../assets/[name].[ext]'
+      //       }
+      //     }
+      //   ]
+      // },
       {
         test: /\.mp3$/,
         use: [
