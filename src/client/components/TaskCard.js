@@ -1,6 +1,5 @@
 import React from 'react';
 import Rnd from 'react-rnd';
-import bakuhaMp3 from '../assets/bakuha.mp3';
 import { Card, Button, Form } from 'semantic-ui-react';
 
 const TaskCard = props => (
@@ -60,7 +59,10 @@ const TaskCard = props => (
         </div>
       </Card.Content>
     </Card>
-    <audio id={'bakuhaMp3' + String(props._id)} src={bakuhaMp3} />
+    <audio
+      id={'bakuhaMp3' + String(props._id)}
+      src="http://web.sfc.keio.ac.jp/~t16416ys/file_server/bakuhatodo/bakuha.mp3"
+    />
     <img
       id={'bakuhaGif' + String(props._id)}
       src=""
